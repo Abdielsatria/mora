@@ -11,6 +11,10 @@
             box-sizing: border-box;
         }
 
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 25%, #f093fb 50%, #4facfe 75%, #00f2fe 100%);
@@ -20,7 +24,9 @@
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            overflow: hidden;
+            padding: 40px 20px;
+            overflow-x: hidden;
+            overflow-y: auto;
             position: relative;
         }
 
@@ -64,6 +70,7 @@
             position: relative;
             z-index: 10;
             border: 2px solid rgba(255, 255, 255, 0.1);
+            margin: 40px auto;
         }
 
         .emoji {
@@ -298,13 +305,13 @@
                 <!-- Contoh: <img src="foto1.jpg"> atau <img src="images/foto1.jpg"> -->
                 
                 <div class="photo-item">
+                    <img src="kumis.jpeg">
+                </div>
+                <div class="photo-item">
                     <img src="box.jpeg">
                 </div>
                 <div class="photo-item">
                     <img src="item.jpeg">
-                </div>
-                <div class="photo-item">
-                    <img src="kumis.jpeg">
                 </div>
             </div>
         </div>
@@ -349,10 +356,10 @@
         }
 
         yesButton.addEventListener('click', () => {
-            message.textContent = "yeayy! pacaran juga😘😜";
+            message.textContent = "Yeayy! Akhirnya jadian juga! 💙✨🎉";
             message.style.display = 'block';
             noButton.style.display = 'none';
-            yesButton.innerHTML = '<span>Seneng bangeetss</span><span style="font-size: 1.5em;"> >< </span>';
+            yesButton.innerHTML = '<span>Bahagia Banget!</span><span style="font-size: 1.5em;">🥰</span>';
             createConfetti();
             
             setTimeout(() => {
