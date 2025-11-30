@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Khusus Namoralita</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 25%, #f093fb 50%, #4facfe 75%, #00f2fe 100%);
+            background-size: 400% 400%;
+            animation: gradientFlow 15s ease infinite;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow: hidden;
+            position: relative;
+        }
+
+        @keyframes gradientFlow {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Floating hearts background */
+        .heart {
+            position: absolute;
+            font-size: 2em;
+            opacity: 0.3;
+            animation: float 10s infinite ease-in-out;
+        }
+
+        @keyframes float {
+            0%, 100% { 
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% { opacity: 0.3; }
+            90% { opacity: 0.3; }
+            100% { 
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .container {
+            text-align: left;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(30px);
+            padding: 80px 60px;
+            border-radius: 40px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3),
+                        0 0 0 1px rgba(255, 255, 255, 0.1) inset;
+            max-width: 600px;
+            width: 90%;
+            position: relative;
+            z-index: 10;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .emoji {
+            font-size: 5em;
+            margin-bottom: 30px;
+            display: inline-block;
+            filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.3));
+        }
+
+        h1 {
+            font-size: 3.5em;
+            margin-bottom: 20px;
+            background: linear-gradient(120deg, #fff, #e0e7ff, #ffd6ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 800;
+            letter-spacing: -2px;
+            line-height: 1.1;
+        }
+
+        .subtitle {
+            font-size: 1.4em;
+            color: rgba(255, 255, 255, 0.95);
+            margin-bottom: 50px;
+            font-weight: 400;
+            letter-spacing: 0.5px;
+        }
+
+        .buttons {
+            margin-top: 50px;
+            display: flex;
+            gap: 25px;
+            flex-direction: column;
+        }
+
+        button {
+            padding: 25px 50px;
+            font-size: 1.4em;
+            font-weight: 700;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25);
+            position: relative;
+            overflow: hidden;
+            text-align: left;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        button::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        button:hover::before {
+            width: 400px;
+            height: 400px;
+        }
+
+        #yes {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+        }
+
+        #yes:hover {
+            transform: translateX(10px) scale(1.03);
+            box-shadow: 0 20px 45px rgba(102, 126, 234, 0.5);
+        }
+
+        #yes:active {
+            transform: translateX(5px) scale(1.01);
+        }
+
+        #no {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            border: 3px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+        
+        #no:hover {
+            transform: translateX(10px);
+        }
+
+        .message {
+            display: none;
+            margin-top: 40px;
+            font-size: 2em;
+            font-weight: 700;
+            animation: fadeInScale 0.5s ease;
+            color: white;
+            text-shadow: 3px 3px 15px rgba(0, 0, 0, 0.4);
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .photo-gallery {
+            display: none;
+            margin-top: 50px;
+            animation: fadeInScale 0.7s ease;
+        }
+
+        .gallery-title {
+            font-size: 1.8em;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 30px;
+            text-align: center;
+            text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .photo-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .photo-item {
+            position: relative;
+            aspect-ratio: 1;
+            border-radius: 20px;
+            overflow: hidden;
+            background: rgba(255, 255, 255, 0.1);
+            border: 3px solid rgba(255, 255, 255, 0.2);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .photo-item:hover {
+            transform: scale(1.05) rotate(2deg);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+            border-color: rgba(255, 255, 255, 0.4);
+        }
+
+        .photo-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        @keyframes fadeInScale {
+            from {
+                opacity: 0;
+                transform: scale(0.5);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            background: #f0f;
+            position: absolute;
+            animation: confettiFall 3s linear;
+        }
+
+        @keyframes confettiFall {
+            to {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 40px 30px;
+            }
+            
+            h1 {
+                font-size: 2.2em;
+            }
+            
+            .buttons {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            button {
+                width: 100%;
+            }
+
+            .photo-grid {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="emoji">💙</div>
+        <h1>Moraa, wil u be my girlfriend<br>:3</h1>
+        <p class="subtitle">masa uda manggil sayang statusnya masi hts</p>
+        <div class="buttons">
+            <button id="yes">
+                <span>maww?</span>
+                <span style="font-size: 1.5em;">✨</span>
+            </button>
+            <button id="no">
+                <span>gmww</span>
+                <span style="font-size: 1.2em; opacity: 0.5;">🚫</span>
+            </button>
+        </div>
+        <div class="message" id="message"></div>
+        
+        <div class="photo-gallery" id="photoGallery">
+            <div class="gallery-title">Kenangan Kita Berdua 💕</div>
+            <div class="photo-grid">
+                <!-- CARA TAMBAH FOTO: Ganti "URL_FOTO_DISINI" dengan path foto kamu -->
+                <!-- Contoh: <img src="foto1.jpg"> atau <img src="images/foto1.jpg"> -->
+                
+                <div class="photo-item">
+                    <img src="box.jpeg">
+                </div>
+                <div class="photo-item">
+                    <img src="item.jpeg">
+                </div>
+                <div class="photo-item">
+                    <img src="kumis.jpeg">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Create floating hearts
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.className = 'heart';
+            heart.textContent = '💙';
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.animationDuration = (Math.random() * 5 + 8) + 's';
+            heart.style.animationDelay = Math.random() * 5 + 's';
+            document.body.appendChild(heart);
+            
+            setTimeout(() => heart.remove(), 15000);
+        }
+
+        for (let i = 0; i < 15; i++) {
+            createHeart();
+        }
+
+        const yesButton = document.getElementById('yes');
+        const noButton = document.getElementById('no');
+        const message = document.getElementById('message');
+        const container = document.querySelector('.container');
+        const photoGallery = document.getElementById('photoGallery');
+
+        function createConfetti() {
+            for (let i = 0; i < 100; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.left = Math.random() * window.innerWidth + 'px';
+                confetti.style.top = '-10px';
+                confetti.style.background = `hsl(${Math.random() * 360}, 70%, 60%)`;
+                confetti.style.animationDelay = Math.random() * 0.5 + 's';
+                document.body.appendChild(confetti);
+                
+                setTimeout(() => confetti.remove(), 3000);
+            }
+        }
+
+        yesButton.addEventListener('click', () => {
+            message.textContent = "yeayy! pacaran juga😘😜";
+            message.style.display = 'block';
+            noButton.style.display = 'none';
+            yesButton.innerHTML = '<span>Seneng bangeetss</span><span style="font-size: 1.5em;"> >< </span>';
+            createConfetti();
+            
+            setTimeout(() => {
+                photoGallery.style.display = 'block';
+            }, 1500);
+        });
+
+        // Button "Tolak" bergerak tapi tidak bisa diklik
+        let isRunning = false;
+        noButton.addEventListener('mouseover', () => {
+            if (isRunning) return;
+            isRunning = true;
+
+            const containerRect = container.getBoundingClientRect();
+            const buttonRect = noButton.getBoundingClientRect();
+            
+            // Calculate safe boundaries
+            const maxX = containerRect.width - buttonRect.width - 60;
+            const maxY = containerRect.height - buttonRect.height - 60;
+            
+            const newLeft = Math.random() * maxX + 30;
+            const newTop = Math.random() * maxY + 30;
+
+            noButton.style.position = 'absolute';
+            noButton.style.left = newLeft + 'px';
+            noButton.style.top = newTop + 'px';
+            
+            setTimeout(() => {
+                isRunning = false;
+            }, 300);
+        });
+
+        // Prevent click on "Tolak" button
+        noButton.addEventListener('click', (e) => {
+            e.preventDefault();
+            message.textContent = "Yaelah, gabisa diklik dong! Pilih yang atas! 😭";
+            message.style.display = 'block';
+            setTimeout(() => {
+                message.style.display = 'none';
+            }, 2000);
+        });
+
+        // Reset button position on container leave
+        container.addEventListener('mouseleave', () => {
+            noButton.style.position = 'relative';
+            noButton.style.left = 'auto';
+            noButton.style.top = 'auto';
+        });
+    </script>
+</body>
+</html>
